@@ -1,24 +1,29 @@
-#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <iostream>
+
+sf::Mutex mutex;
+
+void func()
+{
+    mutex.lock();
+
+    for (int i = 0; i < 5; ++i)
+        std::cout << "I'm thread number one" << std::endl;
+
+    mutex.unlock();
+}
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::Thread thread(&func);
+    thread.launch();
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    mutex.lock();
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+    for (int i = 0; i < 5; ++i)
+        std::cout << "I'm the main thread" << std::endl;
+
+    mutex.unlock();
 
     return 0;
 }
