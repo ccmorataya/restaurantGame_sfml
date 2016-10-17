@@ -1,0 +1,20 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "g++",
+    "isShellCommand": true,
+    "suppressTaskName": true,
+    "tasks": [
+        { 
+           "taskName": "Compilation",
+           "isBuildCommand": true,
+            "args": ["-c", "${workspaceRoot}/main.cpp"]
+        },
+        { 
+            "taskName": "SFML compile",
+            "args": ["${workspaceRoot}/main.o", "-o", "sfml-app.bin", "-lsfml-graphics", "-lsfml-window", "-lsfml-system"]
+        }
+    ],
+    "showOutput": "always"
+}
